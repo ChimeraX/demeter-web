@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  demeter-app:
+    container_name: demeter-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3001:5000
