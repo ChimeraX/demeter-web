@@ -1,26 +1,66 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import store from './redux/store';
+import { connect, Provider as StoreProvider } from 'react-redux';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { Router, Switch, Route } from 'react-router-dom';
+import history from './routing/history';
+import DemeterState from './redux/state';
+import ChimeraXTheme from '@chimerax/common-app/lib/theming/ChimeraXTheme';
+import ThemePicker from '@chimerax/common-app/lib/components/ThemePicker';
+import Main from './widgets/Main';
+import PrivateRoute from './components/PrivateRoute';
+import RecipeCard from './components/RecipeCard';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const PrivateRoutes = () => {
+    return (
+        <React.Fragment>
+            <Main>
+                <PrivateRoute
+                    path={'/'}
+                    children={
+                        <React.Fragment>
+                            <PrivateRoute path={'/discover'} component={RecipeCard} />
+                            <PrivateRoute path={'/favorites'} component={ThemePicker} />
+                            <PrivateRoute path={'/saved'} component={ThemePicker} />
+                            <PrivateRoute path={'/calculator'} component={ThemePicker} />
+                            <PrivateRoute path={'/settings'} component={ThemePicker} />
+                            <PrivateRoute path={'/themes'} component={ThemePicker} />
+                        </React.Fragment>
+                    }
+                />
+            </Main>
+        </React.Fragment>
+    );
+};
 
-export default App;
+const App = (properties: { theme: ChimeraXTheme }) => {
+    const { theme } = properties;
+    return (
+        <ThemeProvider theme={theme}>
+            <Router history={history}>
+                <Switch>
+                    <Route path="/home" component={ThemePicker} />
+                    <Route path="/" component={PrivateRoutes} />
+                </Switch>
+            </Router>
+        </ThemeProvider>
+    );
+};
+
+const mapStateToProps = (state: DemeterState) => {
+    return {
+        theme: state.theme.theme,
+    };
+};
+
+const ThemedApp = connect(mapStateToProps)(App);
+
+const AppContainer = () => {
+    return (
+        <StoreProvider store={store}>
+            <ThemedApp />
+        </StoreProvider>
+    );
+};
+
+export default AppContainer;
