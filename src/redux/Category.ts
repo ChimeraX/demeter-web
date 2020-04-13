@@ -1,0 +1,74 @@
+import RestClient from '@chimerax/common-app/lib/rest/RestClient';
+import Category from '../model/Category';
+import { Action } from 'redux';
+import * as endpoints from '../rest/endpoints';
+import { AxiosResponse } from 'axios';
+import Page from '@chimerax/common-app/lib/rest/Page';
+
+export interface CategoryState {
+    categories: Category[];
+}
+
+export interface CategoryAction extends Action, Partial<CategoryState> {
+    parentId?: number;
+}
+
+const restClient = new RestClient();
+
+const GET_CATEGORIES = 'GET_CATEGORIES';
+export const getCategories = (parentId?: number) => ({
+    type: GET_CATEGORIES,
+    parentId,
+});
+
+const SET_CATEGORIES = 'SET_CATEGORIES';
+export const setCategories = (categories: Category[], parentId?: number) => ({
+    type: SET_CATEGORIES,
+    categories,
+    parentId,
+});
+
+export const fetchCategories = (parentId?: number) => {
+    return (dispatch: any) => {
+        dispatch(getCategories(parentId));
+        const query = parentId ? `?parent=${parentId}` : '';
+        return restClient.get(`${endpoints.category}${query}`).then((response: AxiosResponse<Page<Category>>) => {
+            dispatch(setCategories(response.data.content, parentId));
+        });
+    };
+};
+
+const initialState: CategoryState = { categories: [] };
+
+const category = (state: CategoryState = initialState, action: CategoryAction) => {
+    switch (action.type) {
+        case GET_CATEGORIES:
+            return state;
+        case SET_CATEGORIES:
+            if (action.parentId !== undefined) {
+                const index = state.categories.findIndex((category) => category.id === action.parentId);
+                const categories = [
+                    ...state.categories.slice(0, index),
+                    {
+                        ...state.categories[index],
+                        fetched: true,
+                    },
+                    ...action.categories!!,
+                    ...state.categories.slice(index + 1),
+                ];
+                return {
+                    ...state,
+                    categories,
+                };
+            } else {
+                return {
+                    ...state,
+                    categories: action.categories,
+                };
+            }
+        default:
+            return state;
+    }
+};
+
+export default category;

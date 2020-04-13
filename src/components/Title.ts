@@ -1,4 +1,4 @@
-import DemeterState from '../redux/state';
+import DemeterState from '../redux/DemeterXState';
 import { connect } from 'react-redux';
 import Title, { TitleProperties } from '../widgets/Title';
 

@@ -26,7 +26,7 @@
 		"extends": "react-app"
 	},
 	"dependencies": {
-		"@chimerax/common-app": "1.0.0",
+		"@chimerax/common-app": "1.1.2",
 		"@material-ui/core": "^4.9.0",
 		"@material-ui/icons": "^4.9.0",
 		"@material-ui/lab": "^4.0.0-alpha.47",

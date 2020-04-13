@@ -3,7 +3,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { Icon } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Menu from '@material-ui/core/Menu';
-import RightMenuButton, { RightMenuButtonProperties } from './RightMenuButton';
+import RightMenuButton from './RightMenuButton';
 import RightMenuButtonItem from './RightMenuButtonItem';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -23,14 +23,23 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export interface RightMenuProperties {
-    buttons: RightMenuButtonProperties[];
-}
+const buttons = [
+    {
+        onClick: () => alert('btn'),
+        icon: 'account_circle',
+    },
+    {
+        onClick: () => alert('btn'),
+        icon: 'notifications',
+    },
+    {
+        onClick: () => alert('btn'),
+        icon: 'settings',
+    },
+];
 
-const RightMenu: React.FC<RightMenuProperties> = (properties) => {
+const RightMenu: React.FC = () => {
     const classes = useStyles();
-
-    const { buttons } = properties;
 
     const [anchor, setAnchor] = useState<(EventTarget & HTMLElement) | null>(null);
 
@@ -47,7 +56,7 @@ const RightMenu: React.FC<RightMenuProperties> = (properties) => {
     const renderMenu = (
         <Menu anchorEl={anchor} keepMounted open={isMenuOpen} onClose={handleMenuClose}>
             {buttons.map((button) => (
-                <RightMenuButtonItem {...button} />
+                <RightMenuButtonItem key={button.icon} {...button} />
             ))}
         </Menu>
     );
@@ -55,7 +64,7 @@ const RightMenu: React.FC<RightMenuProperties> = (properties) => {
     const renderDesktopSection = (
         <div className={classes.sectionDesktop}>
             {buttons.map((button) => (
-                <RightMenuButton {...button} />
+                <RightMenuButton key={button.icon} {...button} />
             ))}
         </div>
     );

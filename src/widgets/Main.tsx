@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,11 +13,12 @@ import LeftDrawer from './LeftDrawer';
 import history from '../routing/history';
 import { blue, grey, red, yellow } from '@material-ui/core/colors';
 import RightMenu from '../components/RightMenu';
+import DemeterXTheme from '../theming/DemeterXTheme';
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
+const useStyles = makeStyles((theme: DemeterXTheme) => {
+    return createStyles({
         root: {
             display: 'flex',
         },
@@ -51,10 +52,17 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         content: {
             flexGrow: 1,
-            padding: theme.spacing(3),
+            paddingTop: theme.spacing(8),
+            paddingRight: theme.spacing(3),
+            paddingLeft: theme.spacing(3),
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center center',
+            backgroundAttachment: 'fixed',
+            backgroundSize: 'cover',
+            backgroundImage: "url('./images/dark_background.jpg')",
         },
-    }),
-);
+    });
+});
 
 const items = [
     {
@@ -126,11 +134,8 @@ const Main: React.FC = (props) => {
                     <RightMenu />
                 </Toolbar>
             </AppBar>
-            <LeftDrawer title="Left drawer" open={open} onClose={handleClose} items={items} />
-            <main className={classes.content}>
-                <div className={classes.toolbar} />
-                {props.children}
-            </main>
+            <LeftDrawer title="" open={open} onClose={handleClose} items={items} />
+            <main className={classes.content}>{props.children}</main>
         </div>
     );
 };

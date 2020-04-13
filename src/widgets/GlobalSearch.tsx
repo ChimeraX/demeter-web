@@ -3,8 +3,8 @@ import { createStyles, fade, makeStyles, Theme } from '@material-ui/core/styles'
 import { Icon, IconButton, InputBase } from '@material-ui/core';
 import combineClasses from 'clsx';
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
+const useStyles = makeStyles((theme: Theme) => {
+    return createStyles({
         search: {
             position: 'relative',
             borderRadius: theme.shape.borderRadius,
@@ -18,8 +18,8 @@ const useStyles = makeStyles((theme: Theme) =>
                 backgroundColor: fade(theme.palette.common.white, 0.25),
             },
         },
-    }),
-);
+    });
+});
 
 export interface GlobalSearchProperties {
     placeHolder: string;

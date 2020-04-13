@@ -3,15 +3,23 @@ import combineClasses from 'clsx';
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Icon, List } from '@material-ui/core';
 import Grow from '@chimerax/common-app/lib/widgets/Grow';
 import LeftDrawerItem, { LeftDrawerItemProperties } from './LeftDrawerItem';
+import DemeterXTheme from '../../theming/DemeterXTheme';
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
+const useStyles = makeStyles((theme: DemeterXTheme) => {
+    const image = theme.palette.type === 'light' ? 'white_background' : 'kitchen_background';
+    return createStyles({
+        drawerBackground: {
+            backgroundRepeat: 'no-repeat',
+            backgroundImage: `url('./images/${image}.jpg')`,
+            backgroundPosition: 'left',
+            backgroundSize: 'cover',
+        },
         drawer: {
             width: drawerWidth,
             flexShrink: 0,
@@ -45,8 +53,8 @@ const useStyles = makeStyles((theme: Theme) =>
         paper: {
             boxShadow: 'black 0px 0px 5px',
         },
-    }),
-);
+    });
+});
 
 export interface LeftDrawerProperties {
     title: string;
@@ -60,7 +68,7 @@ const LeftDrawer: React.FC<LeftDrawerProperties> = (properties) => {
     const { title, open, onClose, items } = properties;
     const drawer = open ? classes.drawerOpen : classes.drawerClose;
     const drawerAll = combineClasses(classes.drawer, drawer);
-    const paper = combineClasses(classes.paper, drawer);
+    const paper = combineClasses(classes.paper, classes.drawerBackground, drawer);
     return (
         <Drawer variant="permanent" className={drawerAll} classes={{ paper }}>
             <div className={classes.toolbar}>

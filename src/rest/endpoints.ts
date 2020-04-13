@@ -1,4 +1,6 @@
-export const localhost = 'http://localhost:6593';
+export const localhost = 'http://localhost:8080';
+export const docker = 'http://localhost:6593';
 export const production = `${localhost}`;
-export const defaultURL = `${localhost}`;
-export const recipes = `${defaultURL}/recipes`;
+export const defaultURL = `${docker}`;
+export const recipe = `${defaultURL}/recipe`;
+export const category = `${defaultURL}/category`;

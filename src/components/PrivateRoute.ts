@@ -1,8 +1,8 @@
-import DemeterState from '../redux/state';
+import DemeterXState from '../redux/DemeterXState';
 import PrivateRoute, { PrivateRouteProperties } from '../widgets/PrivateRoute';
 import { connect } from 'react-redux';
 
-const mapStateToProps = (state: DemeterState, properties?: Partial<PrivateRouteProperties>) => {
+const mapStateToProps = (state: DemeterXState, properties?: Partial<PrivateRouteProperties>) => {
     return {
         authenticated: true,
         redirect: '/login',

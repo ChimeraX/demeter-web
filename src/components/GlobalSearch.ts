@@ -1,8 +1,8 @@
-import DemeterState from '../redux/state';
 import GlobalSearch, { GlobalSearchProperties } from '../widgets/GlobalSearch';
 import { connect } from 'react-redux';
+import DemeterXState from '../redux/DemeterXState';
 
-const mapStateToProps = (state: DemeterState, properties?: Partial<GlobalSearchProperties>) => {
+const mapStateToProps = (state: DemeterXState, properties?: Partial<GlobalSearchProperties>) => {
     return {
         placeHolder: 'Search...',
     };

@@ -1,9 +1,9 @@
-import DemeterState from '../redux/state';
+import DemeterXState from '../redux/DemeterXState';
 import RecipeCard, { RecipeCardProperties } from '../widgets/RecipeCard';
 import recipe from './recipeData';
 import { connect } from 'react-redux';
 
-const mapStateToProps = (state: DemeterState, properties?: Partial<RecipeCardProperties>) => {
+const mapStateToProps = (state: DemeterXState, properties?: Partial<RecipeCardProperties>) => {
     return {
         recipe,
     };

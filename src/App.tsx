@@ -4,12 +4,18 @@ import { connect, Provider as StoreProvider } from 'react-redux';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { Router, Switch, Route } from 'react-router-dom';
 import history from './routing/history';
-import DemeterState from './redux/state';
-import ChimeraXTheme from '@chimerax/common-app/lib/theming/ChimeraXTheme';
-import ThemePicker from '@chimerax/common-app/lib/components/ThemePicker';
+import DemeterXState from './redux/DemeterXState';
 import Main from './widgets/Main';
 import PrivateRoute from './components/PrivateRoute';
-import RecipeCard from './components/RecipeCard';
+import DiscoverPage from './pages/DiscoverPage';
+import FavoritePage from './pages/FavoritePage';
+import SavedPage from './pages/SavedPage';
+import CalculatePage from './pages/CalculatePage';
+import SettingsPage from './pages/SettingsPage';
+import HomePage from './pages/HomePage';
+import DefaultPage from './pages/DefaultPage';
+import ChimeraXTheme from '@chimerax/common-app/lib/theming/ChimeraXTheme';
+import { fetchCategories } from './redux/Category';
 
 const PrivateRoutes = () => {
     return (
@@ -19,12 +25,12 @@ const PrivateRoutes = () => {
                     path={'/'}
                     children={
                         <React.Fragment>
-                            <PrivateRoute path={'/discover'} component={RecipeCard} />
-                            <PrivateRoute path={'/favorites'} component={ThemePicker} />
-                            <PrivateRoute path={'/saved'} component={ThemePicker} />
-                            <PrivateRoute path={'/calculator'} component={ThemePicker} />
-                            <PrivateRoute path={'/settings'} component={ThemePicker} />
-                            <PrivateRoute path={'/themes'} component={ThemePicker} />
+                            <PrivateRoute path={'/discover'} component={DiscoverPage} />
+                            <PrivateRoute path={'/favorites'} component={FavoritePage} />
+                            <PrivateRoute path={'/saved'} component={SavedPage} />
+                            <PrivateRoute path={'/calculator'} component={CalculatePage} />
+                            <PrivateRoute path={'/settings'} component={SettingsPage} />
+                            <PrivateRoute path={'/'} exact component={DefaultPage} />
                         </React.Fragment>
                     }
                 />
@@ -33,13 +39,13 @@ const PrivateRoutes = () => {
     );
 };
 
-const App = (properties: { theme: ChimeraXTheme }) => {
+const AppWidget = (properties: { theme: ChimeraXTheme }) => {
     const { theme } = properties;
     return (
         <ThemeProvider theme={theme}>
             <Router history={history}>
                 <Switch>
-                    <Route path="/home" component={ThemePicker} />
+                    <Route path="/home" component={HomePage} />
                     <Route path="/" component={PrivateRoutes} />
                 </Switch>
             </Router>
@@ -47,20 +53,27 @@ const App = (properties: { theme: ChimeraXTheme }) => {
     );
 };
 
-const mapStateToProps = (state: DemeterState) => {
+const mapStateToProps = (state: DemeterXState) => {
     return {
         theme: state.theme.theme,
     };
 };
 
-const ThemedApp = connect(mapStateToProps)(App);
+const initStore = (_store: any) => {
+	_store.dispatch(fetchCategories());
+};
+
+initStore(store);
+
+const AppComponent = connect(mapStateToProps)(AppWidget);
 
 const AppContainer = () => {
-    return (
+	return (
         <StoreProvider store={store}>
-            <ThemedApp />
+            <AppComponent />
         </StoreProvider>
     );
 };
 
 export default AppContainer;
+
