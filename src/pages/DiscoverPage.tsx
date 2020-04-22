@@ -1,11 +1,12 @@
 import React from 'react';
 import RecipesGrid from '../widgets/RecipesGrid';
 import CategoryList from '../components/CategoryList';
+import PageTitle from '../widgets/PageTitle';
 
 const DiscoverPage = () => {
 	return (
 		<section>
-			<div>DiscoverPage</div>
+			<PageTitle title={'DiscoverPage'}/>
 			<CategoryList/>
 			<RecipesGrid/>
 		</section>

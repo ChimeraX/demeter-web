@@ -4,7 +4,7 @@ import Title, { TitleProperties } from '../widgets/Title';
 
 const mapStateToProps = (state: DemeterState, properties?: Partial<TitleProperties>) => {
     return {
-        icon: 'eco',
+        icon: 'restaurant_menu',
         text: 'Demeter-X',
     };
 };

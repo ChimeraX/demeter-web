@@ -1,31 +1,40 @@
 import React from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Icon } from '@material-ui/core';
+import DemeterXTheme from '../theming/DemeterXTheme';
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        title: {
-            fontSize: '32px',
-            fontWeight: 'bold',
-            fontFamily: 'Cinzel, serif',
-        },
-    }),
+const useStyles = makeStyles((theme: DemeterXTheme) =>
+	createStyles({
+		icon: {
+			color: theme.palette.secondary.main,
+			textShadow: 'none',
+			fontSize: '32px',
+		},
+		title: {
+			fontSize: '32px',
+			fontWeight: 'bold',
+			fontFamily: 'Cinzel, cursive',
+			color: theme.palette.primary.main,
+			userSelect: 'none',
+			display: 'contents'
+		},
+	}),
 );
 
 export interface TitleProperties {
-    text: string;
-    icon: string;
+	text: string;
+	icon: string;
 }
 
 const Title: React.FC<TitleProperties> = (props) => {
-    const { text, icon } = props;
-    const classes = useStyles();
-    return (
-        <div className={classes.title}>
-            <Icon>{icon}</Icon>
-            {text}
-        </div>
-    );
+	const { text, icon } = props;
+	const classes = useStyles();
+	return (
+		<div className={classes.title}>
+			<Icon className={classes.icon}>{icon}</Icon>
+			{text}
+		</div>
+	);
 };
 
 export default Title;
