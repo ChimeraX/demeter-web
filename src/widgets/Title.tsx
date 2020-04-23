@@ -6,7 +6,7 @@ import DemeterXTheme from '../theming/DemeterXTheme';
 const useStyles = makeStyles((theme: DemeterXTheme) =>
 	createStyles({
 		icon: {
-			color: theme.palette.secondary.main,
+			color: theme.palette.secondary.light,
 			textShadow: 'none',
 			fontSize: '32px',
 		},
@@ -14,9 +14,8 @@ const useStyles = makeStyles((theme: DemeterXTheme) =>
 			fontSize: '32px',
 			fontWeight: 'bold',
 			fontFamily: 'Cinzel, cursive',
-			color: theme.palette.primary.main,
 			userSelect: 'none',
-			display: 'contents'
+			display: 'contents',
 		},
 	}),
 );
@@ -26,9 +25,13 @@ export interface TitleProperties {
 	icon: string;
 }
 
-const Title: React.FC<TitleProperties> = (props) => {
-	const { text, icon } = props;
+const Title: React.FC<TitleProperties> = (properties) => {
+	// properties
+	const { text, icon } = properties;
+
+	// classes
 	const classes = useStyles();
+
 	return (
 		<div className={classes.title}>
 			<Icon className={classes.icon}>{icon}</Icon>

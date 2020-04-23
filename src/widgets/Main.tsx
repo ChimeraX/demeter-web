@@ -11,7 +11,7 @@ import GlobalSearch from '../components/GlobalSearch';
 import Title from '../components/Title';
 import LeftDrawer from './LeftDrawer';
 import DemeterXTheme from '../theming/DemeterXTheme';
-import UserWidget from './UserWidget';
+import UserWidget from '../components/UserWidget';
 
 const useStyles = makeStyles((theme: DemeterXTheme) => {
 	return createStyles({
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: DemeterXTheme) => {
 				easing: theme.transitions.easing.sharp,
 				duration: theme.transitions.duration.leavingScreen,
 			}),
-			backgroundColor: theme.palette.common.black,
+			backgroundColor: theme.palette.primary.dark,
 		},
 		menuButton: {
 			marginRight: 36,
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme: DemeterXTheme) => {
 			backgroundPosition: 'center center',
 			backgroundAttachment: 'fixed',
 			backgroundSize: 'cover',
-			backgroundImage: "url('./images/kitchen_background.jpg')",
+			backgroundImage: 'url(\'./images/kitchen_background.jpg\')',
 		},
 	});
 });

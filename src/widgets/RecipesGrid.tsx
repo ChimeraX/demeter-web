@@ -1,33 +1,33 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Recipe from '../model/Recipe';
-import recipe from '../components/recipeData';
-import { Grid } from '@material-ui/core';
+import {
+	Card,
+	CardActions,
+	CardContent,
+	CardHeader,
+	CardMedia,
+	Grid,
+	Icon,
+	IconButton,
+	Typography,
+} from '@material-ui/core';
 import RecipeCard from './RecipeCard';
 
 export interface RecipesGridProperties {
-	recipes?: Recipe[];
+	recipes: Recipe[];
 }
 
-let recipes: Recipe[] = [
-	recipe, recipe, recipe, recipe, recipe, recipe, recipe,
-];
-
-recipes = recipes.map((recipe, index) => ({ ...recipe, id: index }));
-
 const RecipesGrid: React.FC<RecipesGridProperties> = (properties) => {
+	// properties
+	const { recipes } = properties;
 
-	const [focused, setFocused] = useState<Recipe | undefined>(undefined);
 	return (
 		<Grid container>
 			{
 				recipes.map(recipe => {
-					const isExpanded = focused === recipe;
 					return (
-						<Grid item xs={isExpanded ? 12 : 6} key={`recipe-${recipe.id}`}>
-							<RecipeCard
-								recipe={recipe}
-								expanded={isExpanded}
-								onExpand={() => setFocused(isExpanded ? undefined : recipe)}/>
+						<Grid item xs={3} key={`recipe-${recipe.id}`}>
+							<RecipeCard recipe={recipe}/>
 						</Grid>
 					);
 				})

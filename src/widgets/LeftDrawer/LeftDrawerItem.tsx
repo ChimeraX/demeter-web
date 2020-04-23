@@ -2,24 +2,32 @@ import React from 'react';
 import clsx from 'clsx';
 import history from '../../routing/history';
 import { Divider, Icon, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
+import DemeterXTheme from '../../theming/DemeterXTheme';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme: DemeterXTheme) =>
 	createStyles({
 		item: {
+			backgroundColor: theme.palette.primary.light,
 			padding: theme.spacing(1, 2),
 			[theme.breakpoints.up('sm')]: {
 				padding: theme.spacing(2, 3),
 			},
 			'&:hover': {
-				backgroundColor: 'rgba(255, 255, 255, 0.5)',
+				backgroundColor: theme.palette.primary.dark,
 			},
 		},
 		icon: {
-			textShadow: '1px 1px 1px black',
+			color: 'inherit',
 		},
 		iconSelected: {
-			color: theme.palette.secondary.dark,
+			color: theme.palette.secondary.light,
+		},
+		itemSelected: {
+			backgroundColor: theme.palette.primary.dark,
+		},
+		divider: {
+			backgroundColor: 'black',
 		},
 	}),
 );
@@ -43,6 +51,7 @@ const LeftDrawerItemWidget: React.FC<LeftDrawerItemProperties> = (properties) =>
 
 	// classes
 	const classes = useStyles();
+	const itemClassName = clsx(classes.item, { [classes.itemSelected]: selected });
 	const iconClassName = clsx(classes.icon, { [classes.iconSelected]: selected });
 
 	// internal widgets
@@ -50,7 +59,7 @@ const LeftDrawerItemWidget: React.FC<LeftDrawerItemProperties> = (properties) =>
 		<ListItem button key={id} onClick={() => {
 			history.replace(path);
 			onSelect && onSelect();
-		}} className={classes.item}>
+		}} className={itemClassName}>
 			<ListItemIcon>
 				<Icon className={iconClassName}>{icon}</Icon>
 			</ListItemIcon>
@@ -60,7 +69,7 @@ const LeftDrawerItemWidget: React.FC<LeftDrawerItemProperties> = (properties) =>
 	const ItemWithDivider = () => (
 		<>
 			<Item/>
-			<Divider/>
+			<Divider className={classes.divider}/>
 		</>
 	);
 	return delimiter ? <ItemWithDivider/> : <Item/>;

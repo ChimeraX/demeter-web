@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import combineClasses from 'clsx';
-import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { List } from '@material-ui/core';
@@ -13,10 +12,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme: DemeterXTheme) => {
 	return createStyles({
 		drawerBackground: {
-			backgroundRepeat: 'no-repeat',
-			backgroundImage: `url('./images/kitchen_background.jpg')`,
-			backgroundPosition: 'center',
-			backgroundSize: 'cover',
+			backgroundColor: theme.palette.primary.light,
 		},
 		drawer: {
 			width: drawerWidth,
@@ -78,7 +74,6 @@ const LeftDrawer: React.FC<LeftDrawerProperties> = (properties) => {
 	return (
 		<Drawer variant="permanent" className={drawerAll} classes={{ paper }}>
 			<div className={classes.toolbar}/>
-			<Divider/>
 			<List>
 				{items.map((item) => (
 					<LeftDrawerItemWidget

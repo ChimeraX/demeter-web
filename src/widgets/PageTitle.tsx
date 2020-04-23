@@ -5,7 +5,9 @@ export interface PageTitleProperties {
 }
 
 const PageTitle: React.FC<PageTitleProperties> = (properties) => {
+	// properties
 	const { title } = properties;
+
 	return (
 		<div>{title}</div>
 	);

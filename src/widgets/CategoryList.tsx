@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { createStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
@@ -8,52 +8,54 @@ import Category from '../model/Category';
 import { Icon, IconButton, useMediaQuery } from '@material-ui/core';
 import DemeterXTheme from '../theming/DemeterXTheme';
 
-const useStyles = makeStyles((theme: DemeterXTheme) =>
-	createStyles({
-		root: {
-			display: 'flex',
-			backgroundColor: 'transparent',
-		},
-		scrollable: {
-			display: 'flex',
-			flexWrap: 'wrap',
-			justifyContent: 'space-around',
-			overflow: 'auto',
-			backgroundColor: 'transparent',
-		},
-		gridList: {
-			flexWrap: 'nowrap',
-			transform: 'translateZ(0)',
-		},
-		tile: {
-			borderRadius: '12px',
-			margin: '0px 12px 0px',
-		},
-		childTile: {
-			animation: '$grow 0.5s ease',
-		},
-		title: {
-			userSelect: 'none',
-			color: 'white',
-			fontSize: '18px',
-			textAlign: 'center',
-			fontFamily: 'cursive',
-		},
-		titleBar: {
-			background: 'linear-gradient(to top, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 70%, rgba(0,0,0,0) 100%)',
-		},
-		button: {
-			borderRadius: 0,
-			backgroundColor: theme.palette.primary.main,
-			'&:hover': {
-				backgroundColor: theme.palette.primary.dark,
+const useStyles = makeStyles((theme: DemeterXTheme) => {
+		console.log(theme.palette.secondary.main);
+		return createStyles({
+			root: {
+				display: 'flex',
+				backgroundColor: 'transparent',
 			},
-		},
-		'@keyframes grow': {
-			'0%': { transform: 'scale(0.65)' },
-			'100%': { transform: 'scale(1.0)' },
-		},
-	}),
+			scrollable: {
+				display: 'flex',
+				flexWrap: 'wrap',
+				justifyContent: 'space-around',
+				overflow: 'auto',
+				backgroundColor: 'transparent',
+			},
+			gridList: {
+				flexWrap: 'nowrap',
+				transform: 'translateZ(0)',
+			},
+			tile: {
+				borderRadius: '12px',
+				margin: '0px 12px 0px',
+			},
+			childTile: {
+				animation: '$grow 0.5s ease',
+			},
+			title: {
+				userSelect: 'none',
+				color: 'white',
+				fontSize: '18px',
+				textAlign: 'center',
+				fontFamily: 'cursive',
+			},
+			titleBar: {
+				background: 'linear-gradient(to top, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 70%, rgba(0,0,0,0) 100%)',
+			},
+			button: {
+				borderRadius: 0,
+				backgroundColor: theme.palette.primary.dark,
+				'&:hover': {
+					backgroundColor: theme.palette.primary.light,
+				},
+			},
+			'@keyframes grow': {
+				'0%': { transform: 'scale(0.65)' },
+				'100%': { transform: 'scale(1.0)' },
+			},
+		});
+	},
 );
 
 export interface CategoryListProperties {
@@ -94,8 +96,10 @@ const CategoryList: React.FC<CategoryListProperties> = (properties) => {
 		}
 	})();
 
-	const scrollLeft = () => {};
-	const scrollRight = () => {};
+	const scrollLeft = () => {
+	};
+	const scrollRight = () => {
+	};
 
 	return (
 		<div className={classes.root}>
@@ -109,7 +113,7 @@ const CategoryList: React.FC<CategoryListProperties> = (properties) => {
 						              classes={{ tile: tileClass(category) }}
 						              onDrag={() => console.log('dragging')}
 						              onClick={() => onClick(category)}>
-							<img src={category.image} alt={category.name} unselectable={'on'} draggable={false}/>
+							<img src={category.image} alt={category.name}/>
 							<GridListTileBar
 								title={category.name}
 								classes={{

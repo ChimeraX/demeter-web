@@ -7,6 +7,7 @@ import Page from '@chimerax/common-app/lib/rest/Page';
 
 export interface CategoryState {
 	categories: Category[];
+	selectedCategory?: Category;
 }
 
 export interface CategoryAction extends Action, Partial<CategoryState> {
