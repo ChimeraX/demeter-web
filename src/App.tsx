@@ -16,6 +16,8 @@ import HomePage from './pages/HomePage';
 import DefaultPage from './pages/DefaultPage';
 import ChimeraXTheme from '@chimerax/common-app/lib/theming/ChimeraXTheme';
 import { fetchCategories } from './redux/Category';
+import greenTheme from './theming/greenTheme';
+import { fetchRecipes } from './redux/Recipe';
 
 const PrivateRoutes = () => {
     return (
@@ -55,12 +57,13 @@ const AppWidget = (properties: { theme: ChimeraXTheme }) => {
 
 const mapStateToProps = (state: DemeterXState) => {
     return {
-        theme: state.theme.theme,
+        theme: greenTheme
     };
 };
 
 const initStore = (_store: any) => {
 	_store.dispatch(fetchCategories());
+	_store.dispatch(fetchRecipes());
 };
 
 initStore(store);

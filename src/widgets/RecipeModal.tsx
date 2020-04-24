@@ -13,6 +13,8 @@ import Grow from '@chimerax/common-app/lib/widgets/Grow';
 const useStyles = makeStyles((theme: DemeterXTheme) =>
 	createStyles({
 		root: {
+			height: '100px',
+			width: '100px',
 			margin: '20px',
 			background: theme.palette.primary.dark,
 		},
@@ -22,26 +24,18 @@ const useStyles = makeStyles((theme: DemeterXTheme) =>
 		favorite: {
 			color: 'red',
 		},
-		title: {
-			textOverflow: 'ellipsis',
-			overflow: 'hidden',
-			whiteSpace: 'nowrap'
-		},
-		duration: {
-			marginRight: theme.spacing(1)
-		}
 	}),
 );
 
-export interface RecipeCardProperties {
+export interface RecipeModalProperties {
 	recipe: Recipe;
 	onFavorite?: () => void;
-	onSelect?: () => void;
+	onSave?: () => void;
 }
 
-const RecipeCard: React.FC<RecipeCardProperties> = (properties) => {
+const RecipeModal: React.FC<RecipeModalProperties> = (properties) => {
 	// properties
-	const { recipe, onFavorite, onSelect } = properties;
+	const { recipe, onFavorite } = properties;
 
 	// classes
 	const classes = useStyles();
@@ -58,8 +52,9 @@ const RecipeCard: React.FC<RecipeCardProperties> = (properties) => {
 				title={recipe.name}
 			/>
 			<CardHeader
-				classes={{title: classes.title}}
-				avatar={<UserWidget/>}
+				avatar={
+					<UserWidget/>
+				}
 				title={recipe.name}
 			/>
 			<CardActions>
@@ -70,16 +65,12 @@ const RecipeCard: React.FC<RecipeCardProperties> = (properties) => {
 					</Icon>
 				</IconButton>
 				{recipe.favorites}
-				<Icon className={classes.duration}>schedule</Icon>
-				{`${recipe.duration} min`}
+				<Icon>schedule</Icon>
+				{recipe.duration}
 				<Grow/>
-				<IconButton
-					onClick={() => onSelect && onSelect()}>
-					<Icon>launch</Icon>
-				</IconButton>
 			</CardActions>
 		</Card>
 	);
 };
 
-export default RecipeCard;
+export default RecipeModal;

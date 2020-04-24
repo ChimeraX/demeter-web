@@ -1,14 +1,14 @@
 import React from 'react';
-import RecipesGrid from '../widgets/RecipesGrid';
+import RecipesGrid from '../components/RecipesGrid';
 import CategoryList from '../components/CategoryList';
+import Page from './Page';
 
 const DiscoverPage = () => {
 	return (
-		<section>
-			<div>DiscoverPage</div>
+		<Page title="Discover new recipes">
 			<CategoryList/>
 			<RecipesGrid/>
-		</section>
+		</Page>
 	);
 };
 

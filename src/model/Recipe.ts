@@ -1,9 +1,12 @@
 export default interface Recipe {
     id: number;
     name: string;
-    description: string;
     image: string;
     duration: number;
+	categoryId: number;
+    calories: number;
+    favorites: number;
+    favorite: boolean;
     ingredients: Array<QuantifiedIngredient>;
     steps: Array<RecipeStep>;
 }
