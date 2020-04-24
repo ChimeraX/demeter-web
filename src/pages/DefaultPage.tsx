@@ -1,17 +1,10 @@
 import React from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme: Theme) => {
-	return createStyles({
-		root: {
-			height: '100%'
-		}
-	});
-});
+import Page from './Page';
 
 const DefaultPage = () => {
-	const classes = useStyles();
-    return <div className={classes.root}>DefaultPage</div>;
+	return (
+		<Page title={'Default page for a logged user'}/>
+	);
 };
 
 export default DefaultPage;

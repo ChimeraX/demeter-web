@@ -9,7 +9,7 @@ const PageTitle: React.FC<PageTitleProperties> = (properties) => {
 	const { title } = properties;
 
 	return (
-		<div>{title}</div>
+		<h1>{title}</h1>
 	);
 };
 

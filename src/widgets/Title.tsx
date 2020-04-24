@@ -12,8 +12,7 @@ const useStyles = makeStyles((theme: DemeterXTheme) =>
 		},
 		title: {
 			fontSize: '32px',
-			fontWeight: 'bold',
-			fontFamily: 'Cinzel, cursive',
+			fontFamily: 'Dancing Script, cursive',
 			userSelect: 'none',
 			display: 'contents',
 		},

@@ -1,7 +1,10 @@
 import React from 'react';
+import Page from './Page';
 
 const CalculatePage = () => {
-    return <div>CalculatePage</div>;
+	return (
+		<Page title={'CalculatePage'}/>
+	);
 };
 
 export default CalculatePage;

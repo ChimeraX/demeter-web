@@ -3,6 +3,7 @@ import DemeterXState from '../redux/DemeterXState';
 import CategoryList, { CategoryListProperties } from '../widgets/CategoryList';
 import { connect } from 'react-redux';
 import Category from '../model/Category';
+import { fetchRecipes, setCategory } from '../redux/Recipe';
 
 const mapStateToProps = (state: DemeterXState, properties?: Partial<CategoryListProperties>) => {
     return {
@@ -17,6 +18,8 @@ const mapDispatchToProps = (dispatch: any, properties?: Partial<CategoryListProp
                 dispatch(fetchCategories(category.id));
                 category.fetched = true;
             }
+            dispatch(setCategory(category.id));
+            dispatch(fetchRecipes(true));
         },
     };
 };

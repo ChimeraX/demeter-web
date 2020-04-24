@@ -9,7 +9,6 @@ import { Icon, IconButton, useMediaQuery } from '@material-ui/core';
 import DemeterXTheme from '../theming/DemeterXTheme';
 
 const useStyles = makeStyles((theme: DemeterXTheme) => {
-		console.log(theme.palette.secondary.main);
 		return createStyles({
 			root: {
 				display: 'flex',

@@ -1,9 +1,9 @@
-import RestClient from '@chimerax/common-app/lib/rest/RestClient';
 import Category from '../model/Category';
 import { Action } from 'redux';
 import * as endpoints from '../rest/endpoints';
 import { AxiosResponse } from 'axios';
 import Page from '@chimerax/common-app/lib/rest/Page';
+import restClient from '../rest/restClient';
 
 export interface CategoryState {
 	categories: Category[];
@@ -13,8 +13,6 @@ export interface CategoryState {
 export interface CategoryAction extends Action, Partial<CategoryState> {
 	parentId?: number;
 }
-
-const restClient = new RestClient();
 
 const GET_CATEGORIES = 'GET_CATEGORIES';
 export const getCategories = (parentId?: number) => ({

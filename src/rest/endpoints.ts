@@ -1,4 +1,4 @@
-export const localhost = 'http://localhost:3337';
+export const localhost = 'http://192.168.0.103:3373';
 export const docker = 'http://localhost:6593';
 export const production = `${localhost}`;
 export const defaultURL = `${localhost}`;

@@ -1,6 +1,5 @@
 import DemeterXTheme from './DemeterXTheme';
 import { createMuiTheme } from '@material-ui/core';
-import { common, green, grey } from '@material-ui/core/colors';
 
 const theme = createMuiTheme({
 	palette: {
