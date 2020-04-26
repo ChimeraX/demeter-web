@@ -8,7 +8,7 @@ import { CardMedia, Icon } from '@material-ui/core';
 import Recipe from '../model/Recipe';
 import UserWidget from '../components/UserWidget';
 import DemeterXTheme from '../theming/DemeterXTheme';
-import Grow from '@chimerax/common-app/lib/widgets/Grow';
+import FlexGrow from '@chimerax/common-web/lib/widgets/FlexGrow';
 
 const useStyles = makeStyles((theme: DemeterXTheme) =>
 	createStyles({
@@ -72,7 +72,7 @@ const RecipeCard: React.FC<RecipeCardProperties> = (properties) => {
 				{recipe.favorites}
 				<Icon className={classes.duration}>schedule</Icon>
 				{`${recipe.duration} min`}
-				<Grow/>
+				<FlexGrow/>
 				<IconButton
 					onClick={() => onSelect && onSelect()}>
 					<Icon>launch</Icon>

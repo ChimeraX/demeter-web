@@ -1,9 +1,8 @@
 import React from 'react';
-import Page from './Page';
-
+import Page from '@chimerax/common-web/lib/widgets/Page';
 const CalculatePage = () => {
 	return (
-		<Page title={'CalculatePage'}/>
+		<Page title={'Calculate'}/>
 	);
 };
 

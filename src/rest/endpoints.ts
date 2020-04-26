@@ -1,6 +1,15 @@
-export const localhost = 'http://192.168.0.103:3373';
-export const docker = 'http://localhost:6593';
-export const production = `${localhost}`;
-export const defaultURL = `${localhost}`;
-export const recipe = `${defaultURL}/recipe`;
-export const category = `${defaultURL}/category`;
+const devConfig = {
+	apiURL: 'http://localhost:3373',
+	oauthURL: 'http://localhost:4973/oauth'
+};
+
+const config = devConfig;
+
+export const apiURL = `${config.apiURL}`;
+
+export const recipeURL = `${apiURL}/recipe`;
+export const categoryURL = `${apiURL}/category`;
+
+export const oauthURL = `${config.oauthURL}`;
+export const userInfoURL = `${oauthURL}/userinfo`;
+export const authorizationURL = `${oauthURL}/authorization`;

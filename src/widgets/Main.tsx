@@ -6,12 +6,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import IconButton from '@material-ui/core/IconButton';
 import { Icon } from '@material-ui/core';
-import Grow from '@chimerax/common-app/lib/widgets/Grow';
 import GlobalSearch from '../components/GlobalSearch';
 import Title from '../components/Title';
 import LeftDrawer from './LeftDrawer';
 import DemeterXTheme from '../theming/DemeterXTheme';
 import UserWidget from '../components/UserWidget';
+import FlexGrow from '@chimerax/common-web/lib/widgets/FlexGrow';
 
 const useStyles = makeStyles((theme: DemeterXTheme) => {
 	return createStyles({
@@ -50,6 +50,9 @@ const useStyles = makeStyles((theme: DemeterXTheme) => {
 			backgroundSize: 'cover',
 			backgroundImage: 'url(\'./images/kitchen_background.jpg\')',
 		},
+		logout: {
+			backgroundColor: 'pink'
+		}
 	});
 });
 
@@ -85,7 +88,7 @@ const Main: React.FC = (props) => {
 				<Toolbar>
 					<OpenButton/>
 					<Title/>
-					<Grow/>
+					<FlexGrow/>
 					<GlobalSearch/>
 					<UserWidget/>
 				</Toolbar>

@@ -1,11 +1,10 @@
 import React from 'react';
-import PageTitle from '../widgets/PageTitle';
-
+import Page from '@chimerax/common-web/lib/widgets/Page';
 const FavoritePage = () => {
 	return (
-		<div>
-			<PageTitle title={'Your Favorites'}/>
-		</div>
+		<Page title={"Your Favorites"}>
+
+		</Page>
 	);
 };
 

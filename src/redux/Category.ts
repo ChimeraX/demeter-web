@@ -8,6 +8,7 @@ import restClient from '../rest/restClient';
 export interface CategoryState {
 	categories: Category[];
 	selectedCategory?: Category;
+	initialized?: boolean;
 }
 
 export interface CategoryAction extends Action, Partial<CategoryState> {
@@ -32,7 +33,7 @@ export const fetchCategories = (parentId?: number) => {
 		dispatch(getCategories(parentId));
 		const query = parentId ? `?parent=${parentId}` : '';
 		return restClient
-			.get(`${endpoints.category}${query}`)
+			.get(`${endpoints.categoryURL}${query}`)
 			.then((response: AxiosResponse<Page<Category>>) => {
 				dispatch(setCategories(response.data.content, parentId));
 			});
@@ -67,6 +68,7 @@ const category = (state: CategoryState = initialState, action: CategoryAction) =
 				return {
 					...state,
 					categories: action.categories,
+					initialized: true,
 				};
 			}
 		default:

@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme: DemeterXTheme) =>
 			textShadow: 'none',
 			fontSize: '32px',
 		},
-		title: {
+		root: {
 			fontSize: '32px',
 			fontFamily: 'Dancing Script, cursive',
 			userSelect: 'none',
@@ -22,6 +22,10 @@ const useStyles = makeStyles((theme: DemeterXTheme) =>
 export interface TitleProperties {
 	text: string;
 	icon: string;
+	classes?: {
+		icon?: string;
+		root?: string;
+	};
 }
 
 const Title: React.FC<TitleProperties> = (properties) => {
@@ -32,7 +36,7 @@ const Title: React.FC<TitleProperties> = (properties) => {
 	const classes = useStyles();
 
 	return (
-		<div className={classes.title}>
+		<div className={classes.root}>
 			<Icon className={classes.icon}>{icon}</Icon>
 			{text}
 		</div>

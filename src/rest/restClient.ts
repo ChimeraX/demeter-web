@@ -1,3 +1,8 @@
 import RestClient from '@chimerax/common-app/lib/rest/RestClient';
+import { getCookies } from '@chimerax/common-web/lib/util/cookies';
 
-export default new RestClient();
+const token = getCookies();
+
+export default new RestClient({
+
+});

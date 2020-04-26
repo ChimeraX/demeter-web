@@ -3,10 +3,12 @@ import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import category from './Category';
 import recipe from './Recipe';
+import user from './User';
 
 const reducer = combineReducers({
     category,
-	recipe
+	recipe,
+	user
 });
 
 const loggerMiddleware = createLogger();

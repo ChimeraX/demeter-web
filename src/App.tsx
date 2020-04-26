@@ -2,80 +2,77 @@ import React from 'react';
 import store from './redux/store';
 import { connect, Provider as StoreProvider } from 'react-redux';
 import { ThemeProvider } from '@material-ui/core/styles';
-import { Router, Switch, Route } from 'react-router-dom';
+import { Router, Switch, Route, Redirect } from 'react-router-dom';
 import history from './routing/history';
 import DemeterXState from './redux/DemeterXState';
 import Main from './widgets/Main';
-import PrivateRoute from './components/PrivateRoute';
 import DiscoverPage from './pages/DiscoverPage';
 import FavoritePage from './pages/FavoritePage';
 import SavedPage from './pages/SavedPage';
 import CalculatePage from './pages/CalculatePage';
 import SettingsPage from './pages/SettingsPage';
 import HomePage from './pages/HomePage';
-import DefaultPage from './pages/DefaultPage';
-import ChimeraXTheme from '@chimerax/common-app/lib/theming/ChimeraXTheme';
-import { fetchCategories } from './redux/Category';
 import greenTheme from './theming/greenTheme';
-import { fetchRecipes } from './redux/Recipe';
+import LandingPage from './pages/LandingPage';
+import DemeterXTheme from './theming/DemeterXTheme';
 
-const PrivateRoutes = () => {
-    return (
-        <React.Fragment>
-            <Main>
-                <PrivateRoute
-                    path={'/'}
-                    children={
-                        <React.Fragment>
-                            <PrivateRoute path={'/discover'} component={DiscoverPage} />
-                            <PrivateRoute path={'/favorites'} component={FavoritePage} />
-                            <PrivateRoute path={'/saved'} component={SavedPage} />
-                            <PrivateRoute path={'/calculator'} component={CalculatePage} />
-                            <PrivateRoute path={'/settings'} component={SettingsPage} />
-                            <PrivateRoute path={'/'} exact component={DefaultPage} />
-                        </React.Fragment>
-                    }
-                />
-            </Main>
-        </React.Fragment>
-    );
+interface AppProperties {
+	theme: DemeterXTheme;
+	isAuthenticated: boolean;
+}
+
+const PublicRoutes = () => {
+	return (
+		<Switch>
+			<Route path="/" exact component={LandingPage}/>
+			<Redirect path="/**" to={'/'}/>
+		</Switch>
+	);
 };
 
-const AppWidget = (properties: { theme: ChimeraXTheme }) => {
-    const { theme } = properties;
-    return (
-        <ThemeProvider theme={theme}>
-            <Router history={history}>
-                <Switch>
-                    <Route path="/home" component={HomePage} />
-                    <Route path="/" component={PrivateRoutes} />
-                </Switch>
-            </Router>
-        </ThemeProvider>
-    );
+
+const PrivateRoutes = () => {
+	return (
+		<Main>
+			<Switch>
+				<Route path={'/discover'} component={DiscoverPage}/>
+				<Route path={'/favorites'} component={FavoritePage}/>
+				<Route path={'/saved'} component={SavedPage}/>
+				<Route path={'/calculator'} component={CalculatePage}/>
+				<Route path={'/settings'} component={SettingsPage}/>
+				<Route path={'/'} component={HomePage}/>
+				<Redirect to="/"/>
+			</Switch>
+		</Main>
+	);
+};
+
+const App: React.FC<AppProperties> = (properties) => {
+	const { theme, isAuthenticated } = properties;
+	return (
+		<ThemeProvider theme={theme}>
+			<Router history={history}>
+				{isAuthenticated ? <PrivateRoutes/> : <PublicRoutes/>}
+			</Router>
+		</ThemeProvider>
+	);
 };
 
 const mapStateToProps = (state: DemeterXState) => {
-    return {
-        theme: greenTheme
-    };
+	return {
+		theme: greenTheme,
+		isAuthenticated: state.user.isAuthenticated,
+	};
 };
 
-const initStore = (_store: any) => {
-	_store.dispatch(fetchCategories());
-	_store.dispatch(fetchRecipes());
-};
-
-initStore(store);
-
-const AppComponent = connect(mapStateToProps)(AppWidget);
+const AppComponent = connect(mapStateToProps)(App);
 
 const AppContainer = () => {
 	return (
-        <StoreProvider store={store}>
-            <AppComponent />
-        </StoreProvider>
-    );
+		<StoreProvider store={store}>
+			<AppComponent/>
+		</StoreProvider>
+	);
 };
 
 export default AppContainer;

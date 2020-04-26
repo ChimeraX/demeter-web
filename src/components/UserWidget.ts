@@ -1,21 +1,10 @@
 import DemeterXState from '../redux/DemeterXState';
-import UserWidget, { UserWidgetProperties } from '../widgets/UserWidget';
 import { connect } from 'react-redux';
-
-const image = 'https://ae01.alicdn.com/kf/HTB1SwWCcBKw3KVjSZFOq6yrDVXa4.jpg_q50.jpg';
+import UserWidget, { UserWidgetProperties } from '@chimerax/common-web/lib/widgets/UserWidget';
 
 const mapStateToProps = (state: DemeterXState, properties: Partial<UserWidgetProperties>) => {
 	return {
-		user: {
-			id: 0,
-			username: 'Tony Stark',
-			firstName: 'Tony',
-			lastName: 'Stark',
-			email: 'IronMan@stark.industries',
-			profilePicture: image,
-			country: 'US',
-			phoneNumber: '34242424543',
-		},
+		user: state.user.user!!
 	};
 };
 

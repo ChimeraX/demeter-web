@@ -8,6 +8,7 @@ import Page from '@chimerax/common-app/lib/rest/Page';
 export interface RecipeState {
 	recipes: Recipe[];
 	categoryId?: number;
+	initialized?: boolean;
 }
 
 export interface RecipeAction extends Action, Partial<RecipeState> {
@@ -36,10 +37,9 @@ export const fetchRecipes = (override: boolean = false) => {
 	return (dispatch: any, getState: any) => {
 		dispatch(getRecipes());
 		const categoryId = getState().recipe.categoryId;
-		console.log(`categoryId: ${categoryId}`);
 		const query = categoryId ? `&category=${categoryId}` : '';
 		return restClient
-			.get(`${endpoints.recipe}?size=100${query}`)
+			.get(`${endpoints.recipeURL}?size=100${query}`)
 			.then((response: AxiosResponse<Page<Recipe>>) => {
 				dispatch(setRecipes(response.data.content, override));
 			});
@@ -69,6 +69,7 @@ const recipe = (state: RecipeState = initialState, action: RecipeAction) => {
 			recipes.push(...actionRecipes);
 			return {
 				recipes,
+				initialized: true
 			};
 		default:
 			return state;
