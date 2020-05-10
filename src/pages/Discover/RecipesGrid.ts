@@ -1,11 +1,11 @@
-import DemeterXState from '../redux/DemeterXState';
-import RecipesGrid, { RecipesGridProperties } from '../widgets/RecipesGrid';
 import { connect } from 'react-redux';
-import Recipe from '../model/Recipe';
+import DemeterXState from '../../redux/DemeterXState';
+import RecipesGrid, { RecipesGridProperties } from '../../widgets/RecipesGrid';
+import Recipe from '../../model/Recipe';
 
 const mapStateToProps = (state: DemeterXState, properties: Partial<RecipesGridProperties>) => {
 	return {
-		recipes: state.recipe.recipes,
+		recipes: state.discover.recipes.items,
 	};
 };
 

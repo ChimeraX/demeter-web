@@ -3,6 +3,6 @@ export default interface Category {
 	name: string;
 	image: string;
 	parentId?: number;
-	fetched?: boolean;
-	lastFetched?: boolean;
+	childrenFetched?: boolean;
+	fromLastFetch?: boolean;
 }

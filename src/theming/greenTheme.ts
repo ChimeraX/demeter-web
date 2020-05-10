@@ -21,7 +21,7 @@ const theme = createMuiTheme({
 
 const greenTheme: DemeterXTheme = {
 	...theme,
-	gradientImage: `linear-gradient(315deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.light} 74%)`,
+	gradientImage: `linear-gradient(315deg, ${theme.palette.secondary.light} 0%, ${theme.palette.primary.main} 74%)`,
 	backgroundImage: `url('./images/kitchen_background.jpg')`,
 	landingImage: `url('./images/landing.jpg')`,
 	name: 'GREEN_THEME',

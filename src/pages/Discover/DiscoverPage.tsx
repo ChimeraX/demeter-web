@@ -1,11 +1,10 @@
 import React from 'react';
-import RecipesGrid from '../components/RecipesGrid';
-import CategoryList from '../components/CategoryList';
 import Page from '@chimerax/common-web/lib/widgets/Page';
-import DemeterXState from '../redux/DemeterXState';
+import DemeterXState from '../../redux/DemeterXState';
 import { connect } from 'react-redux';
-import { fetchCategories } from '../redux/Category';
-import { fetchRecipes } from '../redux/Recipe';
+import { fetchCategories, fetchRecipes } from '../../redux/Discover';
+import CategoryList from './CategoryList';
+import RecipesGrid from './RecipesGrid';
 
 export interface DiscoverPageProperties {
 	initialized?: boolean;
@@ -13,7 +12,10 @@ export interface DiscoverPageProperties {
 }
 
 const DiscoverPage: React.FC<DiscoverPageProperties> = (properties) => {
-	const { initialized, initialize } = properties;
+	const {
+		initialized,
+		initialize,
+	} = properties;
 	if (!initialized) {
 		initialize();
 	}
@@ -27,13 +29,17 @@ const DiscoverPage: React.FC<DiscoverPageProperties> = (properties) => {
 
 const mapStateToProps = (state: DemeterXState, properties: Partial<DiscoverPageProperties>) => {
 	return {
-		initialized: state.recipe.initialized && state.category.initialized,
+		...properties,
+		initialized: state.discover.initialized,
 	};
 };
 
 const mapDispatchToProps = (dispatch: any, properties: Partial<DiscoverPageProperties>) => {
+	const { initialize } = properties;
 	return {
+		...properties,
 		initialize: () => {
+			initialize && initialize();
 			dispatch(fetchCategories());
 			dispatch(fetchRecipes());
 		},

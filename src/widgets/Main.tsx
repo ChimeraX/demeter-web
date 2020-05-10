@@ -32,13 +32,6 @@ const useStyles = makeStyles((theme: DemeterXTheme) => {
 		hide: {
 			display: 'none',
 		},
-		toolbar: {
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'flex-end',
-			padding: theme.spacing(0, 1),
-			...theme.mixins.toolbar,
-		},
 		content: {
 			flexGrow: 1,
 			paddingTop: theme.spacing(8),
@@ -50,9 +43,6 @@ const useStyles = makeStyles((theme: DemeterXTheme) => {
 			backgroundSize: 'cover',
 			backgroundImage: 'url(\'./images/kitchen_background.jpg\')',
 		},
-		logout: {
-			backgroundColor: 'pink'
-		}
 	});
 });
 

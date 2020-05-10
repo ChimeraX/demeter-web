@@ -76,7 +76,7 @@ const CategoryList: React.FC<CategoryListProperties> = (properties) => {
 
 	const tileClass = (category: Category) => {
 		let result = classes.tile;
-		if (category.lastFetched) {
+		if (category.fromLastFetch) {
 			result = clsx(classes.tile, classes.childTile);
 		}
 		return result;

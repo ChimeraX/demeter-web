@@ -1,8 +1,6 @@
 import User from '@chimerax/common-web/lib/model/User';
 
 const userData: User = {
-	id: 0,
-	username: 'Tony Stark',
 	firstName: 'Tony',
 	lastName: 'Stark',
 	email: 'IronMan@stark.industries',

@@ -1,13 +1,13 @@
 import { applyMiddleware, combineReducers, createStore, Store } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
-import category from './Category';
-import recipe from './Recipe';
 import user from './User';
+import discover from './Discover';
+import favorite from './Favorite';
 
 const reducer = combineReducers({
-    category,
-	recipe,
+    discover,
+	favorite,
 	user
 });
 

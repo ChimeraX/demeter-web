@@ -1,16 +1,12 @@
 import DemeterXState from '../redux/DemeterXState';
+import oAuthConfig from '../rest/oAuthConfig';
 import { connect } from 'react-redux';
-import ChimeraX, { ChimeraXProperties } from '../widgets/ChimeraX';
-import * as endpoints from '../rest/endpoints';
+import ChimeraX from '@chimerax/common-web/lib/widgets/ChimeraX';
 
-const mapStateToProps = (state: DemeterXState, properties?: Partial<ChimeraXProperties>) => {
-	return {};
-};
-
-const mapDispatchToProps = (dispatch: any, properties?: Partial<ChimeraXProperties>) => {
+const mapStateToProps = (state: DemeterXState) => {
 	return {
-		onClick: () => window.location.href = endpoints.oauthURL,
+		...oAuthConfig,
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChimeraX);
+export default connect(mapStateToProps)(ChimeraX);
