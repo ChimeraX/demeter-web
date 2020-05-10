@@ -26,8 +26,8 @@ const PrivateRoutes: React.FC<PrivateRoutesProperties> = (properties) => {
 				<Route path={'/saved'} component={SavedPage}/>
 				<Route path={'/calculator'} component={CalculatePage}/>
 				<Route path={'/settings'} component={SettingsPage}/>
-				<Route path={'/'} component={HomePage}/>
-				<Redirect to="/"/>
+				<Route path={'/'} exact component={HomePage}/>
+				<Redirect path="/**" to="/"/>
 			</Switch>
 		</Main>
 	);

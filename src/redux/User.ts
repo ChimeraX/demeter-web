@@ -3,8 +3,8 @@ import { Action } from 'redux';
 import * as endpoints from '../rest/endpoints';
 import restClient from '../rest/restClient';
 import { AxiosResponse } from 'axios';
-import userData from '../components/userData';
 import { getCookies } from '@chimerax/common-web/lib/util/cookies';
+import { Authentication } from '../model/Authentication';
 
 export interface UserState {
 	user?: User;
@@ -37,11 +37,17 @@ export const setCode = (code: string) => ({
 });
 
 export const doLogin = () => {
-	return (dispatch: any) => {
+	return (dispatch: any, getState: any) => {
+		const code = getState().user.code;
+		console.log(code);
+		console.log(restClient.getHeader('authorization'));
 		return restClient
-			.get(endpoints.userInfoURL)
-			.then((response: AxiosResponse<User>) => {
-				dispatch(setUser(response.data));
+			.post(endpoints.loginURL, { code })
+			.then((response: AxiosResponse<Authentication>) => {
+				const { token } = response.data;
+				document.cookie = `d_token=${token}`;
+				restClient.setHeader('Authorization', `Bearer ${token}`);
+				dispatch(setAuth(token));
 			});
 	};
 };
