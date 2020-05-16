@@ -9,6 +9,9 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   build:
 
@@ -25,12 +28,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm install --silent
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - run: npm install -g jest
     - run: npm run build
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - run: npm run test
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
