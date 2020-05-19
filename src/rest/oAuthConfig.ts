@@ -1,7 +1,9 @@
+import * as endpoints from './endpoints';
+
 const oAuthConfig = {
-	oauthURL: 'http://localhost:3000/oauth',
+	oauthURL: `${endpoints.oauthURL}`,
 	clientId: 'e263ad20',
-	redirect: 'http://localhost:3001/login',
+	redirect: `${document.location.href}/login`,
 	scopes: [
 		'profile'
 	]
