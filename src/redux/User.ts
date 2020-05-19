@@ -5,6 +5,7 @@ import restClient from '../rest/restClient';
 import { AxiosResponse } from 'axios';
 import { getCookies } from '@chimerax/common-web/lib/util/cookies';
 import { Authentication } from '../model/Authentication';
+import oAuthrestClient from '../rest/oAuthrestClient';
 
 export interface UserState {
 	user?: User;
@@ -47,6 +48,7 @@ export const doLogin = () => {
 				document.cookie = `d_token=${d_token}`;
 				document.cookie = `c_token=${c_token}`;
 				restClient.setHeader('Authorization', `Bearer ${d_token}`);
+				oAuthrestClient.setHeader('Authorization', `Bearer ${c_token}`);
 				dispatch(setAuth(d_token));
 			});
 	};
@@ -54,9 +56,8 @@ export const doLogin = () => {
 
 export const fetchUserInfo = () => {
 	return (dispatch: any) => {
-		const token = getCookies().c_token;
-		return restClient
-			.get(endpoints.userInfoURL, { authorization: `Bearer ${token}` })
+		return oAuthrestClient
+			.get(endpoints.userInfoURL)
 			.then((response: AxiosResponse<User>) => {
 				dispatch(setUser(response.data));
 			});
