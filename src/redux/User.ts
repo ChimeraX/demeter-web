@@ -39,23 +39,24 @@ export const setCode = (code: string) => ({
 export const doLogin = () => {
 	return (dispatch: any, getState: any) => {
 		const code = getState().user.code;
-		console.log(code);
-		console.log(restClient.getHeader('authorization'));
+		document.cookie = `code=${code}`;
 		return restClient
 			.post(endpoints.loginURL, { code })
 			.then((response: AxiosResponse<Authentication>) => {
-				const { token } = response.data;
-				document.cookie = `d_token=${token}`;
-				restClient.setHeader('Authorization', `Bearer ${token}`);
-				dispatch(setAuth(token));
+				const { d_token, c_token } = response.data;
+				document.cookie = `d_token=${d_token}`;
+				document.cookie = `c_token=${c_token}`;
+				restClient.setHeader('Authorization', `Bearer ${d_token}`);
+				dispatch(setAuth(d_token));
 			});
 	};
 };
 
 export const fetchUserInfo = () => {
 	return (dispatch: any) => {
+		const token = getCookies().c_token;
 		return restClient
-			.get(endpoints.userInfoURL)
+			.get(endpoints.userInfoURL, { authorization: `Bearer ${token}` })
 			.then((response: AxiosResponse<User>) => {
 				dispatch(setUser(response.data));
 			});

@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
-import Title, { TitleProperties } from '../../src/widgets/Title';
+import Title, { TitleProperties } from '@chimerax/common-web/lib/widgets/Title';
 
 describe('Title unit tests', () => {
     let title: ReactWrapper;

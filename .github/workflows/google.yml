@@ -1,0 +1,68 @@
+name: Build and Deploy to GKE
+
+on:
+  push:
+    branches: [ master ]
+  release:
+    types: [created]
+
+env:
+  GKE_PROJECT: chimera-x
+  GKE_EMAIL: ${{ secrets.GKE_EMAIL }}
+  GITHUB_SHA: ${{ github.sha }}
+  GITHUB_TOKEN: ${{ secrets.CURL_TOKEN }}
+  GKE_ZONE: europe-west1-b
+  GKE_CLUSTER: chimera-x-cluster
+  IMAGE: demeter-app
+  REGISTRY_HOSTNAME: gcr.io
+  DEPLOYMENT_NAME: demeter-app
+
+jobs:
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '270.0.0'
+        service_account_email: ${{ secrets.GKE_EMAIL }}
+        service_account_key: ${{ secrets.GKE_KEY }}
+
+    - run: |
+        # Set up docker to authenticate
+        # via gcloud command-line tool.
+        gcloud auth configure-docker
+
+    - name: Install dependencies
+      run: npm install --silent
+    - name: Build folder
+      run: npm run build
+
+    - name: Build docker image
+      run: |
+        docker build -t "$REGISTRY_HOSTNAME"/"$GKE_PROJECT"/"$IMAGE":"$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" .
+
+    - name: Publish
+      run: |
+        docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:$GITHUB_SHA
+
+    - name: Set up Kustomize
+      run: |
+        curl -o kustomize --location https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
+        chmod u+x ./kustomize
+    - name: Retrieve secrets file
+      run: |
+        curl -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3.raw" -o configMap.yaml -L https://api.github.com/repos/chimerax/k8s-secrets/contents/demeter-app-gcp.yaml?ref=master
+
+    - name: Deploy
+      run: |
+        gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
+        ./kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${GITHUB_SHA}
+        ./kustomize build . | kubectl apply -f -
+        kubectl rollout restart deployment/$DEPLOYMENT_NAME

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demeter-app
+  labels:
+    app: demeter-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demeter-app
+  template:
+    metadata:
+      labels:
+        app: demeter-app
+    spec:
+      containers:
+      - name: demeter-app-container
+        image: gcr.io/chimera-x/demeter-app
+        ports:
+        - containerPort: 5000

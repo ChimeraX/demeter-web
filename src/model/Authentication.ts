@@ -1,3 +1,4 @@
 export interface Authentication {
-    token: string;
+    d_token: string;
+    c_token: string;
 }
