@@ -1,9 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { createStyles, makeStyles, useTheme } from '@material-ui/core/styles';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Category from '../model/Category';
 import { Icon, IconButton, useMediaQuery } from '@material-ui/core';
 import DemeterXTheme from '../theming/DemeterXTheme';
@@ -26,21 +23,19 @@ const useStyles = makeStyles((theme: DemeterXTheme) => {
 				transform: 'translateZ(0)',
 			},
 			tile: {
+				height: '150px', width: '500px',
 				borderRadius: '12px',
 				margin: '0px 12px 0px',
-			},
-			childTile: {
-				animation: '$grow 0.5s ease',
-			},
-			title: {
+				backgroundPosition: 'center',
+				backgroundSize: 'cover',
+				textAlign: 'center',
 				userSelect: 'none',
 				color: 'white',
 				fontSize: '18px',
-				textAlign: 'center',
 				fontFamily: 'cursive',
 			},
-			titleBar: {
-				background: 'linear-gradient(to top, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 70%, rgba(0,0,0,0) 100%)',
+			childTile: {
+				animation: '$grow 0.5s ease',
 			},
 			button: {
 				borderRadius: 0,
@@ -48,6 +43,9 @@ const useStyles = makeStyles((theme: DemeterXTheme) => {
 				'&:hover': {
 					backgroundColor: theme.palette.primary.light,
 				},
+			},
+			inactiveButton: {
+				backgroundColor: theme.palette.primary.main,
 			},
 			'@keyframes grow': {
 				'0%': { transform: 'scale(0.65)' },
@@ -69,7 +67,10 @@ const CategoryList: React.FC<CategoryListProperties> = (properties) => {
 	// classes
 	const classes = useStyles();
 
+	const [index, setIndex] = useState(0);
+
 	const theme = useTheme();
+	const xs = useMediaQuery(theme.breakpoints.up('xs'));
 	const sm = useMediaQuery(theme.breakpoints.up('sm'));
 	const md = useMediaQuery(theme.breakpoints.up('md'));
 	const lg = useMediaQuery(theme.breakpoints.up('lg'));
@@ -89,15 +90,23 @@ const CategoryList: React.FC<CategoryListProperties> = (properties) => {
 			case md:
 				return 3;
 			case sm:
-				return 3;
+				return 2;
+			case xs:
+				return 2;
 			default:
 				return 4;
 		}
 	})();
 
 	const scrollLeft = () => {
+		if (index > 0) {
+			setIndex(index - 1);
+		}
 	};
 	const scrollRight = () => {
+		if (index < categories.length - cols) {
+			setIndex(index + 1);
+		}
 	};
 
 	return (
@@ -105,25 +114,20 @@ const CategoryList: React.FC<CategoryListProperties> = (properties) => {
 			<IconButton onClick={scrollLeft} className={classes.button}>
 				<Icon>keyboard_arrow_left</Icon>
 			</IconButton>
-			<div className={classes.scrollable}>
-				<GridList className={classes.gridList} cols={cols}>
-					{categories.map((category) => (
-						<GridListTile key={category.id}
-						              classes={{ tile: tileClass(category) }}
-						              onDrag={() => console.log('dragging')}
-						              onClick={() => onClick(category)}>
-							<img src={category.image} alt={category.name}/>
-							<GridListTileBar
-								title={category.name}
-								classes={{
-									root: classes.titleBar,
-									title: classes.title,
-								}}
-							/>
-						</GridListTile>
-					))}
-				</GridList>
-			</div>
+			<table className={classes.scrollable}>
+				<tbody>
+					<tr>
+						{categories.slice(index, index + cols).map((category) => (
+							<td
+								key={category.id}
+								onClick={() => onClick(category)}
+								className={tileClass(category)}
+								style={{ backgroundImage: `url('${category.image}')` }}
+							>{category.name}</td>
+						))}
+					</tr>
+				</tbody>
+			</table>
 			<IconButton onClick={scrollRight} className={classes.button}>
 				<Icon>keyboard_arrow_right</Icon>
 			</IconButton>

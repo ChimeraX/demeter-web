@@ -1,14 +1,14 @@
 import React from 'react';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
-import { CardMedia, Icon } from '@material-ui/core';
+import { CardMedia, Icon, Paper } from '@material-ui/core';
 import Recipe from '../model/Recipe';
-import UserWidget from '../components/UserWidget';
 import DemeterXTheme from '../theming/DemeterXTheme';
 import FlexGrow from '@chimerax/common-web/lib/widgets/FlexGrow';
+import CreatorIcon, { CreatorIconProperties } from './CreatorIcon';
 
 const useStyles = makeStyles((theme: DemeterXTheme) =>
 	createStyles({
@@ -25,23 +25,23 @@ const useStyles = makeStyles((theme: DemeterXTheme) =>
 		title: {
 			textOverflow: 'ellipsis',
 			overflow: 'hidden',
-			whiteSpace: 'nowrap'
 		},
 		duration: {
-			marginRight: theme.spacing(1)
-		}
+			marginRight: theme.spacing(1),
+		},
 	}),
 );
 
 export interface RecipeCardProperties {
 	recipe: Recipe;
 	onFavorite?: () => void;
-	onSelect?: () => void;
+	onClick?: () => void;
+	iconProperties: CreatorIconProperties;
 }
 
 const RecipeCard: React.FC<RecipeCardProperties> = (properties) => {
 	// properties
-	const { recipe, onFavorite, onSelect } = properties;
+	const { recipe, onFavorite, onClick, iconProperties } = properties;
 
 	// classes
 	const classes = useStyles();
@@ -58,8 +58,8 @@ const RecipeCard: React.FC<RecipeCardProperties> = (properties) => {
 				title={recipe.name}
 			/>
 			<CardHeader
-				classes={{title: classes.title}}
-				avatar={<UserWidget/>}
+				classes={{ title: classes.title }}
+				avatar={<CreatorIcon {...iconProperties}/>}
 				title={recipe.name}
 			/>
 			<CardActions>
@@ -74,7 +74,7 @@ const RecipeCard: React.FC<RecipeCardProperties> = (properties) => {
 				{`${recipe.duration} min`}
 				<FlexGrow/>
 				<IconButton
-					onClick={() => onSelect && onSelect()}>
+					onClick={() => onClick && onClick()}>
 					<Icon>launch</Icon>
 				</IconButton>
 			</CardActions>

@@ -7,8 +7,9 @@ export default interface Recipe {
     calories: number;
     favorites: number;
     favorite: boolean;
-    ingredients: Array<QuantifiedIngredient>;
-    steps: Array<RecipeStep>;
+    ingredients: QuantifiedIngredient[];
+    steps: RecipeStep[];
+    creator: string;
 }
 
 export interface Ingredient {

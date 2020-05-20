@@ -2,7 +2,6 @@ import Recipe from '../model/Recipe';
 import { Action } from 'redux';
 import restClient from '../rest/restClient';
 import * as endpoints from '../rest/endpoints';
-import { AxiosResponse } from 'axios';
 import Category from '../model/Category';
 import Page from '@chimerax/common-app/lib/rest/Page';
 
@@ -50,29 +49,47 @@ export const getDiscoverRecipes = (override: boolean = false) => ({
 	override,
 });
 
+const SET_DISCOVER_FOCUSED_RECIPE = 'SET_DISCOVER_FOCUSED_RECIPE';
+export const setDiscoverFocusedRecipe = (recipe: Recipe) => ({
+	type: SET_DISCOVER_FOCUSED_RECIPE,
+	focusedRecipe: recipe,
+});
+
 export const fetchCategories = (parentCategory?: Category) => {
-	return (dispatch: any) => {
+	return async (dispatch: any) => {
 		const query = parentCategory ? `?parent=${parentCategory.id}` : '';
-		return restClient
-			.get(`${endpoints.categoryURL}${query}`)
-			.then((response: AxiosResponse<Page<Category>>) => {
-				const { content: categories } = response.data;
-				dispatch(setCategories(categories, parentCategory));
-			});
+		const response = await restClient
+			.get(`${endpoints.categoryURL}${query}`);
+		const { content: categories } = response.data;
+		dispatch(setCategories(categories, parentCategory));
 	};
 };
 
 export const fetchRecipes = (category?: Category, override?: boolean) => {
-	return (dispatch: any) => {
+	return async (dispatch: any) => {
 		dispatch(getDiscoverRecipes(override));
 		const query = category ? `?category=${category.id}` : '';
 		const recipeURL = `${endpoints.recipeURL}${query}`;
-		return restClient
-			.get(recipeURL)
-			.then((response: AxiosResponse<Page<Recipe>>) => {
-				dispatch(setDiscoverRecipes(response.data, override));
-			});
+		const response = await restClient
+			.get(recipeURL);
+		dispatch(setDiscoverRecipes(response.data, override));
 
+	};
+};
+
+export const fetchRecipeDetails = (recipeId: number) => {
+	return async (dispatch: any) => {
+		const recipeURL = `${endpoints.recipeURL}/${recipeId}`;
+		const response = await restClient
+			.get(recipeURL);
+		dispatch(setDiscoverFocusedRecipe(response.data));
+	};
+};
+
+export const requestFavorite = (recipeId: number) => {
+	return (dispatch: any) => {
+		const recipeURL = `${endpoints.recipeURL}/${recipeId}/favorite`;
+		restClient.put(recipeURL, {});
 	};
 };
 
@@ -93,6 +110,14 @@ const initialState: DiscoverState = {
 
 const discover = (state: DiscoverState = initialState, action: DiscoverAction) => {
 	switch (action.type) {
+		case SET_DISCOVER_FOCUSED_RECIPE:
+			return {
+				...state,
+				recipes: {
+					...state.recipes,
+					focusedRecipe: action.focusedRecipe
+				}
+			};
 		case GET_DISCOVER_RECIPES:
 			return {
 				...state,
@@ -152,7 +177,6 @@ const discover = (state: DiscoverState = initialState, action: DiscoverAction) =
 					initialized: true,
 				};
 			}
-
 		default:
 			return state;
 	}

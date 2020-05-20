@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import DemeterXState from '../../redux/DemeterXState';
 import RecipesGrid, { RecipesGridProperties } from '../../widgets/RecipesGrid';
 import Recipe from '../../model/Recipe';
+import { fetchRecipeDetails } from '../../redux/Discover';
 
 const mapStateToProps = (state: DemeterXState, properties: Partial<RecipesGridProperties>) => {
 	return {
@@ -16,6 +17,9 @@ const mapDispatchToProps = (dispatch: any, properties: Partial<RecipesGridProper
 		},
 		onSave: (recipe: Recipe) => {
 
+		},
+		onClick: (recipe: Recipe) => {
+			dispatch(fetchRecipeDetails(recipe.id));
 		},
 	};
 };
