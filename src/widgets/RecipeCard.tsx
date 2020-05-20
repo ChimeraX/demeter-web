@@ -4,7 +4,7 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
-import { CardMedia, Icon, Paper } from '@material-ui/core';
+import { CardMedia, Icon } from '@material-ui/core';
 import Recipe from '../model/Recipe';
 import DemeterXTheme from '../theming/DemeterXTheme';
 import FlexGrow from '@chimerax/common-web/lib/widgets/FlexGrow';
@@ -39,6 +39,14 @@ export interface RecipeCardProperties {
 	iconProperties: CreatorIconProperties;
 }
 
+function trimName(name: string): string {
+	if (name.length < 30) {
+		return name;
+	} else {
+		return `${name.slice(0, 30)}...`;
+	}
+}
+
 const RecipeCard: React.FC<RecipeCardProperties> = (properties) => {
 	// properties
 	const { recipe, onFavorite, onClick, iconProperties } = properties;
@@ -60,7 +68,7 @@ const RecipeCard: React.FC<RecipeCardProperties> = (properties) => {
 			<CardHeader
 				classes={{ title: classes.title }}
 				avatar={<CreatorIcon {...iconProperties}/>}
-				title={recipe.name}
+				title={trimName(recipe.name)}
 			/>
 			<CardActions>
 				<IconButton

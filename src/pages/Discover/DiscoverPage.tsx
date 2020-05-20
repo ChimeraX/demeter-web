@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { fetchCategories, fetchRecipes } from '../../redux/Discover';
 import CategoryList from './CategoryList';
 import RecipesGrid from './RecipesGrid';
-import RecipeDetails from './RecipeDetails';
+import RecipeModal from './RecipeModal';
 
 export interface DiscoverPageProperties {
 	initialized?: boolean;
@@ -24,7 +24,7 @@ const DiscoverPage: React.FC<DiscoverPageProperties> = (properties) => {
 		<Page title="Discover new recipes">
 			<CategoryList/>
 			<RecipesGrid/>
-			<RecipeDetails/>
+			<RecipeModal/>
 		</Page>
 	);
 };

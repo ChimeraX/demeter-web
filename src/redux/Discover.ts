@@ -80,8 +80,7 @@ export const fetchRecipes = (category?: Category, override?: boolean) => {
 export const fetchRecipeDetails = (recipeId: number) => {
 	return async (dispatch: any) => {
 		const recipeURL = `${endpoints.recipeURL}/${recipeId}`;
-		const response = await restClient
-			.get(recipeURL);
+		const response = await restClient.get(recipeURL);
 		dispatch(setDiscoverFocusedRecipe(response.data));
 	};
 };
@@ -108,23 +107,20 @@ const initialState: DiscoverState = {
 	initialized: false,
 };
 
-const discover = (state: DiscoverState = initialState, action: DiscoverAction) => {
+const discover = (state: DiscoverState = initialState, action: DiscoverAction): DiscoverState => {
 	switch (action.type) {
 		case SET_DISCOVER_FOCUSED_RECIPE:
 			return {
 				...state,
 				recipes: {
 					...state.recipes,
-					focusedRecipe: action.focusedRecipe
+					focused: action.focusedRecipe
 				}
 			};
 		case GET_DISCOVER_RECIPES:
 			return {
 				...state,
-				recipes: {
-					...state.recipes,
-					isFetching: true,
-				},
+				isFetching: true,
 			};
 		case SET_DISCOVER_RECIPES:
 			const stateRecipes = state.recipes.items;
@@ -172,7 +168,7 @@ const discover = (state: DiscoverState = initialState, action: DiscoverAction) =
 					...state,
 					categories: {
 						...state.categories,
-						items: action.categories,
+						items: action.categories!!,
 					},
 					initialized: true,
 				};
