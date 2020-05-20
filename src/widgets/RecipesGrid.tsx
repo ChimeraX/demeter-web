@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Recipe from '../model/Recipe';
 import { Grid, useMediaQuery } from '@material-ui/core';
 import RecipeCard from './RecipeCard';
@@ -14,16 +14,6 @@ export interface RecipesGridProperties {
 const RecipesGrid: React.FC<RecipesGridProperties> = (properties) => {
 	// properties
 	const { recipes, onFavorite, onClick } = properties;
-
-	// internal state
-	const [selected, setSelected] = useState<Recipe | undefined>(undefined);
-
-	// handlers
-	const handleClose = () => setSelected(undefined);
-	const handleClick = (recipe: Recipe) => {
-		setSelected(recipe);
-		onClick(recipe);
-	};
 
 	const theme = useTheme();
 	const xs = useMediaQuery(theme.breakpoints.up('xs'));
@@ -65,7 +55,7 @@ const RecipesGrid: React.FC<RecipesGridProperties> = (properties) => {
 										<RecipeCard
 											recipe={recipe}
 											onFavorite={() => onFavorite(recipe)}
-											onClick={() => handleClick(recipe)}
+											onClick={() => onClick(recipe)}
 											iconProperties={{
 												profilePicture: recipe.creator,
 												onClick: () => {
