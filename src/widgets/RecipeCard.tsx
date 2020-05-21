@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -51,6 +51,13 @@ const RecipeCard: React.FC<RecipeCardProperties> = (properties) => {
 	// properties
 	const { recipe, onFavorite, onClick, iconProperties } = properties;
 
+	const [favorite, setFavorite] = useState(recipe.favorite);
+
+	const handleFavorite = () => {
+		onFavorite && onFavorite();
+		setFavorite(!favorite);
+	};
+
 	// classes
 	const classes = useStyles();
 
@@ -72,9 +79,9 @@ const RecipeCard: React.FC<RecipeCardProperties> = (properties) => {
 			/>
 			<CardActions>
 				<IconButton
-					onClick={() => onFavorite && onFavorite()}>
+					onClick={handleFavorite}>
 					<Icon className={classes.favorite}>
-						{recipe.favorite ? 'favorite' : 'favorite_border'}
+						{favorite ? 'favorite' : 'favorite_border'}
 					</Icon>
 				</IconButton>
 				{recipe.favorites}

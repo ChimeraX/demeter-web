@@ -98,7 +98,7 @@ function setLastFetch(fromLastFetch: boolean) {
 
 const initialState: DiscoverState = {
 	recipes: {
-		items: [],
+		items: []
 	},
 	categories: {
 		items: [],

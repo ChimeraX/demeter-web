@@ -6,7 +6,6 @@ import { useTheme } from '@material-ui/core/styles';
 
 export interface RecipesGridProperties {
 	recipes: Recipe[];
-	onSave: (recipe: Recipe) => void;
 	onFavorite: (recipe: Recipe) => void;
 	onClick: (recipe: Recipe) => void;
 }

@@ -4,19 +4,17 @@ import * as endpoints from '../rest/endpoints';
 import restClient from '../rest/restClient';
 import { AxiosResponse } from 'axios';
 import { getCookies } from '@chimerax/common-web/lib/util/cookies';
+import oAuthRestClient from '../rest/oAuthRestClient';
 import { Authentication } from '../model/Authentication';
-import oAuthrestClient from '../rest/oAuthrestClient';
 
 export interface UserState {
 	user?: User;
-	auth?: string;
-	code?: string;
+	auth?: Authentication;
 }
 
 export interface UserAction extends Action, Partial<UserState> {
 	user?: User;
-	auth?: string;
-	code?: string;
+	auth?: Authentication;
 }
 
 const SET_USER = 'SET_USER';
@@ -26,37 +24,29 @@ export const setUser = (user: User) => ({
 });
 
 const SET_AUTH = 'SET_AUTH';
-export const setAuth = (auth: string) => ({
+export const setAuth = (auth: Authentication) => ({
 	type: SET_AUTH,
 	auth,
 });
 
-const SET_CODE = 'SET_CODE';
-export const setCode = (code: string) => ({
-	type: SET_CODE,
-	code,
-});
-
-export const doLogin = () => {
-	return (dispatch: any, getState: any) => {
-		const code = getState().user.code;
-		document.cookie = `code=${code}`;
+export const doLogin = (code: string) => {
+	return (dispatch: any) => {
 		return restClient
-			.post(endpoints.loginURL, { code })
+			.post(`${endpoints.loginURL}`, { code })
 			.then((response: AxiosResponse<Authentication>) => {
-				const { d_token, c_token } = response.data;
-				document.cookie = `d_token=${d_token}`;
+				const { c_token, d_token } = response.data;
 				document.cookie = `c_token=${c_token}`;
+				document.cookie = `d_token=${d_token}`;
+				oAuthRestClient.setHeader('Authorization', `Bearer ${c_token}`);
 				restClient.setHeader('Authorization', `Bearer ${d_token}`);
-				oAuthrestClient.setHeader('Authorization', `Bearer ${c_token}`);
-				dispatch(setAuth(d_token));
+				dispatch(setAuth(response.data));
 			});
 	};
 };
 
 export const fetchUserInfo = () => {
 	return (dispatch: any) => {
-		return oAuthrestClient
+		return oAuthRestClient
 			.get(endpoints.userInfoURL)
 			.then((response: AxiosResponse<User>) => {
 				dispatch(setUser(response.data));
@@ -64,17 +54,19 @@ export const fetchUserInfo = () => {
 	};
 };
 
+const { c_token, d_token } = getCookies();
+
+const auth = (d_token && c_token) ? { d_token, c_token } : undefined;
+
+
 const defaultState: UserState = {
-	auth: getCookies().d_token,
-	code: getCookies().code,
+	auth,
 };
 
 const user = (state: UserState = defaultState, action: UserAction) => {
 	switch (action.type) {
 		case SET_USER:
 			return { ...state, user: action.user };
-		case SET_CODE:
-			return { ...state, code: action.code };
 		case SET_AUTH:
 			return { ...state, auth: action.auth };
 		default:
