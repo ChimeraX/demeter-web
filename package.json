@@ -5,7 +5,7 @@
 	"scripts": {
 		"build": "react-scripts build",
 		"format": "sort-package-json && prettier --write \"(src|tests)/**/*.ts\" \"(src|tests)/**/*.tsx\"",
-		"serve": "serve -l 3373 -s build",
+		"serve": "serve -l 5000 -s build",
 		"start": "react-scripts start",
 		"test": "jest"
 	},
